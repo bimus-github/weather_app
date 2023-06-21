@@ -3,13 +3,11 @@ import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
 
 interface Props {
-  window?: () => Window;
   children: any;
-  pages: any;
 }
 
 export default function ScrollTop(props: Props) {
-  const { children, window } = props;
+  const { children } = props;
   // Note that you normally won't need to set the window ref as useScrollTrigger
   // will default to window.
   // This is only being set here because the demo is in an iframe.

@@ -2,13 +2,11 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Slide from "@mui/material/Slide";
 
 interface Props {
-  window?: () => Window;
   children: any;
-  pages: any;
 }
 
 export default function HideOnScroll(props: Props) {
-  const { children, window } = props;
+  const { children } = props;
   // Note that you normally won't need to set the window ref as useScrollTrigger
   // will default to window.
   // This is only being set here because the demo is in an iframe.

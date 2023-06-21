@@ -1,14 +1,9 @@
 import "./App.css";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Header from "./header/Header";
 import TodayPage from "./pages/today/TodayPage";
-import { useLocation } from "react-router-dom";
+
+// import { useLocation } from "react-router-dom";
 
 function App() {
   // const location = useLocation();
@@ -16,8 +11,7 @@ function App() {
   return (
     <div className="App">
       <Header
-        children={undefined}
-        pages={
+        children={
           <Routes>
             <Route path="/" element={<div>'/' ={">"} page</div>} />
             <Route path="/today" element={<TodayPage />} />

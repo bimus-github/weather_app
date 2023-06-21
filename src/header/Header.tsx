@@ -13,9 +13,7 @@ import HideOnScroll from "./components/HideOnScroll";
 import ScrollTop from "./components/ScrollTop";
 
 interface Props {
-  window?: () => Window;
   children: any;
-  pages: any;
 }
 
 export default function Header(props: Props) {
@@ -37,7 +35,9 @@ export default function Header(props: Props) {
       <Toolbar />
 
       {/* Main Part */}
-      <Container style={{ marginTop: 100 }}>{props.pages}</Container>
+      <Container style={{ marginTop: 100, marginBottom: 20 }}>
+        {props.children}
+      </Container>
 
       {/* Mutton Which Scroling To Top */}
       <ScrollTop {...props}>
