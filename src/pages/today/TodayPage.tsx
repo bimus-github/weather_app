@@ -1,5 +1,5 @@
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
+import { Box, Stack } from "@mui/material";
+
 import InitialBox from "./components/InitialBox";
 import MiddleBox from "./components/MiddleBox";
 import LowBox from "./components/LowBox";

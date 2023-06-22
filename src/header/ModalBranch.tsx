@@ -4,7 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import { Box, Grid, Link } from "@mui/material";
 
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 import { Branchs } from "../models";
 
@@ -21,7 +21,7 @@ export default function ModalBranch({
   setCurrentBranch,
   currentBranch,
 }: Props) {
-  const location = useLocation();
+  // const location = useLocation();
   const [open, setOpen] = React.useState(false);
 
   console.log(branchs);
