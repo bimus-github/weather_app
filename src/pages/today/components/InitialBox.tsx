@@ -1,30 +1,20 @@
-import React from "react";
 import { Stack, Grid, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 import LoadingInitialBox from "../loading/LoadingInitialBox";
 
 import MovingIcons from "../../../weatherIcons/movingIcons/MovingIcon";
 
-const initialInformation = {
-  id: 0,
-  location: "Tashkent",
-  time: "2023 06 22, 13:00",
-  tempDay: "37",
-  tempNight: "20",
-  infor: "Cloudy",
-  icons: {
-    sun: true,
-    moon: false,
-    cloud: true,
-    rain: true,
-    snow: false,
-  },
-};
-
 export default function InitialBox() {
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const {
+    cityInfo,
+    currentData,
+    todayData,
+    isLoading: { isCity, isCurrent, isToday },
+  } = useSelector((state: RootState) => state.weather);
 
-  if (loading) return <LoadingInitialBox />;
+  if (isCity || isCurrent || isToday) return <LoadingInitialBox />;
 
   return (
     <Stack
@@ -48,16 +38,23 @@ export default function InitialBox() {
         }}
         container
         spacing={1}
+        justifyItems="center"
+        alignItems="center"
       >
         <Grid item xs={0.5}></Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Typography variant="h6" gutterBottom>
-            {initialInformation?.location}
+            {cityInfo?.name}
           </Typography>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Typography variant="overline" display="block" gutterBottom>
-            {initialInformation?.time}
+            {currentData?.time.slice(0, 10)} | {currentData?.time.slice(11, 16)}
+          </Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography variant="caption" display="block" gutterBottom>
+            max. wind speed: {todayData?.maxWindSpeed} (km/h)
           </Typography>
         </Grid>
       </Grid>
@@ -75,14 +72,13 @@ export default function InitialBox() {
         <Grid item xs={3}>
           <Stack spacing={1}>
             <Typography variant="h2" gutterBottom>
-              {initialInformation?.tempDay}°
+              {currentData?.feelsLikeTemp}°
             </Typography>
             <Typography variant="caption" display="block" gutterBottom>
-              {initialInformation?.infor}
+              {currentData?.symbolPhrase}
             </Typography>
-            <Typography variant="h6" gutterBottom>
-              Day: {initialInformation?.tempDay}° ⋅ Night:{" "}
-              {initialInformation?.tempNight}°
+            <Typography variant="inherit" gutterBottom>
+              Day: {todayData?.maxTemp}° ⋅ Night: {todayData?.minTemp}°
             </Typography>
           </Stack>
         </Grid>
@@ -95,11 +91,11 @@ export default function InitialBox() {
           }}
         >
           <MovingIcons
-            moon={initialInformation?.icons?.moon}
-            sun={initialInformation?.icons?.sun}
-            rain={initialInformation?.icons?.rain}
-            cloud={initialInformation?.icons?.cloud}
-            snow={initialInformation?.icons?.snow}
+            moon={currentData?.symbol?.slice(0, 1) == "n" ? true : false}
+            sun={currentData?.symbol?.slice(0, 1) == "d" ? true : false}
+            rain={+currentData?.symbol?.slice(2, 3) >= 1 ? true : false}
+            cloud={+currentData?.symbol?.slice(1, 2) >= 2 ? true : false}
+            snow={+currentData?.symbol?.slice(3, 4) >= 2 ? true : false}
           />
         </Grid>
       </Grid>

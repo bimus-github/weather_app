@@ -13,6 +13,8 @@ import FlareIcon from "@mui/icons-material/Flare";
 import CircleIcon from "@mui/icons-material/Circle";
 
 import LoadingLowBox from "../loading/LoadingLowBox";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 const allInformation = [
   {
@@ -74,15 +76,21 @@ const allInformation = [
 ];
 
 export default function LowBox() {
+  const {
+    cityInfo,
+    currentData,
+    todayData,
+    isLoading: { isCity, isCurrent, isToday },
+  } = useSelector((s: RootState) => s.weather);
   const [loading, SetLoading] = React.useState<boolean>(false);
 
-  if (loading) return <LoadingLowBox />;
+  if (isCity || isCurrent || isToday) return <LoadingLowBox />;
 
   return (
     <Stack
       sx={{
         width: "100%",
-        height: 600,
+        height: 500,
         backgroundColor: "#82e8fa",
         borderRadius: 5,
         padding: 1,
@@ -102,9 +110,14 @@ export default function LowBox() {
         spacing={1}
       >
         <Grid item xs={0.5} />
-        <Grid item xs={10}>
+        <Grid item xs={7}>
           <Typography variant="h6" gutterBottom>
-            Weather Today in {allInformation[0]?.location}
+            Weather Today in {cityInfo?.name}, {cityInfo?.country}
+          </Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography variant="overline" gutterBottom>
+            {currentData?.time.slice(0, 10)} | {currentData?.time.slice(11, 16)}
           </Typography>
         </Grid>
       </Grid>
@@ -120,10 +133,10 @@ export default function LowBox() {
         <Grid item xs={0.5} />
         <Grid item xs={5.5}>
           <Typography variant="h2" gutterBottom>
-            {allInformation[0]?.temp}°
+            {currentData?.temperature}°
           </Typography>
           <Typography variant="h6" gutterBottom>
-            {allInformation[0]?.infor}
+            {currentData?.symbolPhrase}
           </Typography>
         </Grid>
         <Grid item xs={5.5}>
@@ -197,7 +210,18 @@ export default function LowBox() {
                 {type?.icon}
                 <Typography variant="overline">{type?.name}</Typography>
               </Box>
-              <Typography>{type?.value}</Typography>
+              <Typography>
+                {type?.name === "high/low" &&
+                  `${todayData?.maxTemp}°/${todayData?.minTemp}°`}
+                {type?.name === "pressure" && `${currentData?.pressure} mb`}
+                {type?.name === "wind" && `${currentData?.windSpeed} km/h`}
+                {type?.name === "uv index" &&
+                  `${currentData?.uvIndex} out of 10`}
+                {type?.name === "humidity" && `${currentData?.relHumidity}%`}
+                {type?.name === "visibility" && `${currentData?.visibility} m`}
+                {type?.name === "dew point" && `${currentData?.dewPoint}°`}
+                {type?.name === "moon phase" && `${type?.value}`}
+              </Typography>
             </Stack>
           </Grid>
         ))}

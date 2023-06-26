@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import ModalBranch from "./ModalBranch";
 import { Branchs } from "../models";
 import Link from "@mui/material/Link";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import CustomButton from "./components/CustomButton";
 
@@ -23,35 +23,36 @@ const branchs: Branchs = [
 
 const LowerPart = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [currentBranch, setCurrentBranch] = useState<string>(
     location?.pathname?.substring(1)
   );
-
-  console.log("Current branch: " + location?.pathname);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1.5} style={{ padding: 5 }}>
         {branchs?.slice(0, 4)?.map((branch, i) => (
           <Grid key={i} item xs={2.4}>
-            {currentBranch !== branch?.toLowerCase() ? (
-              <Link href={`${branch?.toLowerCase()}`}>
-                <CustomButton onClick={() => setCurrentBranch(branch)}>
-                  {branch}
-                </CustomButton>
-              </Link>
+            {currentBranch !== branch ? (
+              <CustomButton
+                onClick={() => {
+                  setCurrentBranch(branch);
+                  navigate(`${branch?.toLowerCase()}`);
+                }}
+              >
+                {branch}
+              </CustomButton>
             ) : (
-              <Link href={`${branch?.toLowerCase()}`}>
-                <CustomButton
-                  underline="none"
-                  onClick={() => {
-                    setCurrentBranch(branch);
-                  }}
-                  disabled
-                >
-                  {branch}
-                </CustomButton>
-              </Link>
+              <CustomButton
+                underline="none"
+                onClick={() => {
+                  setCurrentBranch(branch);
+                  navigate(`/${branch?.toLowerCase()}`);
+                }}
+                disabled
+              >
+                {branch}
+              </CustomButton>
             )}
           </Grid>
         ))}

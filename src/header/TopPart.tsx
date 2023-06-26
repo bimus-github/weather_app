@@ -1,3 +1,4 @@
+import React from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -9,7 +10,12 @@ import Search from "./components/Search";
 import StyledInputBase from "./components/StyledInputBase";
 import SearchIconWrapper from "./components/SearchIconWrapper";
 
-export default function TopPart() {
+interface Props {
+  setCityName: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function TopPart({ setCityName }: Props) {
+  const [city, setCity] = React.useState<string>("");
   return (
     <>
       <Toolbar>
@@ -22,13 +28,14 @@ export default function TopPart() {
           The Weather
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
-        <Search>
+        <Search onClick={() => setCityName(city)}>
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
           <StyledInputBase
             placeholder="Search City or Zipe Code ..."
             inputProps={{ "aria-label": "search" }}
+            onChange={(event) => setCity(event.target.value)}
           />
         </Search>
         <Box sx={{ flexGrow: 1 }} />

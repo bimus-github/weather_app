@@ -14,10 +14,10 @@ import ScrollTop from "./components/ScrollTop";
 
 interface Props {
   children: any;
+  setCityName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function Header(props: Props) {
-  console.log(props);
   return (
     <React.Fragment>
       <CssBaseline />
@@ -25,7 +25,7 @@ export default function Header(props: Props) {
       {/* App Bar */}
       <HideOnScroll {...props}>
         <AppBar>
-          <TopPart />
+          <TopPart setCityName={props?.setCityName} />
 
           <MiddlePart />
 
